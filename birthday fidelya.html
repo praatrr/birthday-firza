@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Fidelya Firzana</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+  :root { --rose:#F2A7BE; --blush:#FAD4E0; --petal:#FDE8F0; --cream:#FFF8FB; --mauve:#C2708A; --deep:#7A3550; --gold:#E8C4A0; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'DM Sans',sans-serif; background:var(--cream); color:var(--deep); overflow-x:hidden; }
+
+  #particles { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; overflow:hidden; }
+  .petal { position:absolute; opacity:0; animation:petalFall linear infinite; }
+  @keyframes petalFall { 0%{transform:translateY(-20px) rotate(0deg);opacity:.7} 100%{transform:translateY(110vh) rotate(360deg);opacity:0} }
+
+  .section { min-height:100vh; display:none; flex-direction:column; align-items:center; justify-content:center; padding:40px 20px; position:relative; z-index:1; animation:fadeUp .7s ease; }
+  .section.active { display:flex; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+
+  .eyebrow { font-size:10px; letter-spacing:4px; text-transform:uppercase; color:var(--rose); margin-bottom:10px; opacity:.8; }
+  .sec-title { font-family:'Playfair Display',serif; font-size:clamp(26px,5vw,46px); font-weight:700; color:var(--deep); text-align:center; margin-bottom:8px; }
+  .sec-title em { font-style:italic; color:var(--mauve); }
+  .sec-hint { font-size:13px; color:var(--mauve); opacity:.7; margin-bottom:28px; font-style:italic; text-align:center; }
+
+  .btn-start { background:var(--deep); color:white; border:none; padding:18px 56px; font-family:'DM Sans',sans-serif; font-size:15px; letter-spacing:3px; text-transform:uppercase; border-radius:100px; cursor:pointer; transition:all .3s; box-shadow:0 8px 30px rgba(122,53,80,.25); }
+  .btn-start:hover { background:var(--mauve); transform:translateY(-3px); }
+  .btn-next { background:transparent; border:2px solid var(--mauve); color:var(--mauve); padding:12px 40px; font-family:'DM Sans',sans-serif; font-size:13px; letter-spacing:2px; text-transform:uppercase; border-radius:100px; cursor:pointer; transition:all .3s; margin-top:22px; display:none; }
+  .btn-next:hover { background:var(--mauve); color:white; transform:translateY(-2px); }
+
+  /* S1 */
+  #s1 { background:linear-gradient(160deg,#FDE8F0 0%,#FAD4E0 50%,#F2A7BE 100%); }
+  .float-flower { position:absolute; font-size:40px; opacity:.15; animation:floatSlow 6s ease-in-out infinite; }
+  @keyframes floatSlow { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-20px) rotate(10deg)} }
+  .praatrr-tag { font-size:10px; letter-spacing:3px; color:var(--rose); opacity:.6; text-transform:uppercase; margin-bottom:6px; }
+  .start-label { font-size:11px; letter-spacing:4px; text-transform:uppercase; color:var(--mauve); margin-bottom:14px; }
+  .start-title { font-family:'Playfair Display',serif; font-size:clamp(44px,9vw,84px); font-weight:700; color:var(--deep); line-height:1.05; text-align:center; margin-bottom:10px; }
+  .start-title span { font-style:italic; color:var(--mauve); }
+  .start-sub { font-size:14px; color:var(--mauve); margin-bottom:48px; font-style:italic; }
+
+  /* S2 CAKE */
+  #s2 { background:linear-gradient(180deg,var(--cream) 0%,var(--petal) 100%); }
+  .cake-wrap { cursor:pointer; user-select:none; }
+  .cake-svg { width:220px; filter:drop-shadow(0 20px 40px rgba(242,167,190,.4)); transition:transform .2s; }
+  .cake-wrap:hover .cake-svg { transform:scale(1.04); }
+  .candle-flame { transition:opacity .5s; }
+  .candle-flame.out { opacity:0; }
+  .cake-msg { font-family:'Playfair Display',serif; font-size:19px; font-style:italic; color:var(--mauve); margin-top:20px; text-align:center; opacity:0; transition:opacity .6s; min-height:28px; }
+  .cake-msg.show { opacity:1; }
+
+  /* S3 GAME */
+  #s3 { background:linear-gradient(180deg,var(--petal) 0%,var(--blush) 100%); }
+  #gameCanvas { border-radius:20px; box-shadow:0 16px 50px rgba(242,167,190,.5); display:block; max-width:calc(100vw - 40px); touch-action:none; }
+  .game-score { font-family:'Playfair Display',serif; font-size:22px; color:var(--mauve); font-style:italic; margin-bottom:6px; }
+  .game-timer { font-size:12px; letter-spacing:3px; color:var(--rose); text-transform:uppercase; margin-bottom:16px; }
+
+  /* S4 WHEEL */
+  #s4 { background:linear-gradient(160deg,#2D1B26 0%,#4A1F35 50%,#7A3550 100%); }
+  #s4 .eyebrow { color:#FAD4E0; }
+  #s4 .sec-title { color:#FDE8F0; }
+  #s4 .sec-hint { color:var(--rose); }
+  #s4 .btn-next { color:#FAD4E0; border-color:#F2A7BE; }
+  .wheel-wrap { position:relative; display:flex; flex-direction:column; align-items:center; }
+  #wheelCanvas { border-radius:50%; box-shadow:0 0 40px rgba(242,167,190,.35); cursor:pointer; }
+  .wheel-pointer { font-size:36px; margin-bottom:-10px; filter:drop-shadow(0 2px 6px rgba(0,0,0,.4)); z-index:2; }
+  .wheel-spins { font-size:12px; letter-spacing:2px; color:var(--rose); margin-top:14px; }
+  .wheel-result { margin-top:20px; background:rgba(255,255,255,.12); border:1px solid rgba(242,167,190,.3); border-radius:16px; padding:16px 28px; color:#FDE8F0; font-family:'Playfair Display',serif; font-size:18px; font-style:italic; text-align:center; min-height:56px; max-width:300px; opacity:0; transition:opacity .5s; }
+  .wheel-result.show { opacity:1; }
+
+  /* S5 LETTER */
+  #s5 { background:linear-gradient(160deg,#FAD4E0 0%,#F2A7BE 40%,#C2708A 100%); }
+  #s5 .eyebrow { color:rgba(255,255,255,.7); }
+  #s5 .sec-title { color:white; margin-bottom:28px; }
+  .env-wrap { display:flex; flex-direction:column; align-items:center; cursor:pointer; }
+  .env-svg { width:260px; filter:drop-shadow(0 20px 50px rgba(122,53,80,.35)); transition:transform .3s; }
+  .env-svg:hover { transform:scale(1.04); }
+  .env-hint { font-size:13px; color:white; opacity:.8; margin-top:14px; font-style:italic; }
+  .letter-box { display:none; max-width:480px; width:100%; background:rgba(255,255,255,.97); border-radius:24px; padding:34px 30px; box-shadow:0 24px 60px rgba(122,53,80,.3); }
+  .letter-to { font-family:'Playfair Display',serif; font-size:15px; color:var(--mauve); font-style:italic; margin-bottom:16px; }
+  .letter-body { font-family:'DM Sans',sans-serif; font-size:15px; line-height:1.9; color:var(--deep); min-height:100px; }
+  .letter-sign { margin-top:24px; font-family:'Playfair Display',serif; font-size:17px; font-style:italic; color:var(--mauve); text-align:right; }
+  .letter-deco { text-align:center; font-size:20px; margin-top:12px; letter-spacing:8px; }
+  .letter-praatrr { text-align:center; font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--rose); opacity:.6; margin-top:16px; }
+
+  .cpiece { position:fixed; border-radius:2px; pointer-events:none; z-index:9999; animation:cfall 2.5s ease-in forwards; }
+  @keyframes cfall { 0%{transform:translateY(-10px) rotate(0deg);opacity:1} 100%{transform:translateY(100vh) rotate(720deg);opacity:0} }
+
+  #audio-bar { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:rgba(122,53,80,.85); backdrop-filter:blur(12px); color:white; padding:10px 20px; border-radius:100px; font-size:12px; letter-spacing:1px; z-index:100; display:none; align-items:center; gap:10px; white-space:nowrap; }
+  .mdot { width:8px; height:8px; background:var(--rose); border-radius:50%; animation:mpulse 1s ease-in-out infinite; flex-shrink:0; }
+  @keyframes mpulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.5)} }
+  #mute-btn { background:none; border:none; color:white; cursor:pointer; font-size:16px; }
+</style>
+</head>
+<body>
+
+<div id="particles"></div>
+
+<audio id="bg-music" src="song.mp3" loop></audio>
+<div id="audio-bar"><div class="mdot"></div><span>Playing Song...</span><button id="mute-btn" onclick="toggleMute()">🔊</button></div>
+
+<div class="section active" id="s1">
+  <div class="float-flower" style="top:8%;left:6%">🌸</div>
+  <div class="float-flower" style="top:12%;right:8%;animation-delay:1.5s">🌷</div>
+  <div class="float-flower" style="bottom:12%;left:10%;animation-delay:2.5s">✿</div>
+  <div class="float-flower" style="bottom:8%;right:6%;animation-delay:.8s">🌸</div>
+  <div class="praatrr-tag">praatrr</div>
+  <div class="start-label">a little something for</div>
+  <h1 class="start-title">Fidelya<br><span>Firzana</span></h1>
+  <p class="start-sub">happy birthday, beautiful 🌸</p>
+  <button class="btn-start" onclick="startJourney()">✦ Start ✦</button>
+</div>
+
+<div class="section" id="s2">
+  <div class="eyebrow">praatrr ✦ 01</div>
+  <h2 class="sec-title">Tiup <em>Lilinnya</em> </h2>
+  <p class="sec-hint">klik kuenya 3x untuk tiup semua lilin</p>
+  <div class="cake-wrap" onclick="blowCandle()">
+    <svg class="cake-svg" viewBox="0 0 200 200" fill="none">
+      <ellipse cx="100" cy="175" rx="88" ry="12" fill="#F2A7BE" opacity=".3"/>
+      <rect x="20" y="130" width="160" height="50" rx="12" fill="#FAD4E0"/>
+      <rect x="20" y="130" width="160" height="14" rx="6" fill="#F2A7BE"/>
+      <circle cx="50" cy="158" r="5" fill="#C2708A" opacity=".5"/>
+      <circle cx="75" cy="152" r="4" fill="#E8C4A0" opacity=".7"/>
+      <circle cx="100" cy="158" r="5" fill="#C2708A" opacity=".5"/>
+      <circle cx="125" cy="152" r="4" fill="#E8C4A0" opacity=".7"/>
+      <circle cx="150" cy="158" r="5" fill="#C2708A" opacity=".5"/>
+      <rect x="40" y="90" width="120" height="44" rx="10" fill="#FDE8F0"/>
+      <rect x="40" y="90" width="120" height="12" rx="5" fill="#FAD4E0"/>
+      <circle cx="100" cy="112" r="8" fill="#F2A7BE" opacity=".6"/>
+      <circle cx="100" cy="112" r="4" fill="#C2708A" opacity=".8"/>
+      
+      <rect x="62" y="68" width="10" height="26" rx="4" fill="#E8C4A0"/>
+      <g class="candle-flame" id="flame1"><ellipse cx="67" cy="58" rx="5" ry="8" fill="#FFD27A"/><ellipse cx="67" cy="60" rx="3" ry="5" fill="#FF9A4A"/></g>
+      
+      <rect x="95" y="62" width="10" height="32" rx="4" fill="#FAD4E0"/>
+      <g class="candle-flame" id="flame2"><ellipse cx="100" cy="52" rx="5" ry="8" fill="#FFD27A"/><ellipse cx="100" cy="54" rx="3" ry="5" fill="#FF9A4A"/></g>
+      
+      <rect x="128" y="68" width="10" height="26" rx="4" fill="#C2708A" opacity=".7"/>
+      <g class="candle-flame" id="flame3"><ellipse cx="133" cy="58" rx="5" ry="8" fill="#FFD27A"/><ellipse cx="133" cy="60" rx="3" ry="5" fill="#FF9A4A"/></g>
+    </svg>
+  </div>
+  <div class="cake-msg" id="cakeMsg">ciee tujuh belas tahun nih yee</div>
+  <button class="btn-next" id="cakeNext" onclick="goTo('s3',initGame)">NEXT</button>
+</div>
+
+<div class="section" id="s3">
+  <div class="eyebrow">praatrr ✦ 02</div>
+  <h2 class="sec-title">Tangkap <em>hatinya</em> </h2>
+  <p class="sec-hint">tap / klik hati yang jatuh — 10 detik!</p>
+  <div class="game-score" id="gameScore">Score: 0</div>
+  <div class="game-timer" id="gameTimer">10 detik</div>
+  <canvas id="gameCanvas" width="320" height="320"></canvas>
+  <button class="btn-next" id="gameNext" onclick="goTo('s4',initWheel)">NEXT</button>
+</div>
+
+<div class="section" id="s4">
+  <div class="eyebrow">praatrr ✦ 03</div>
+  <h2 class="sec-title" style="color:#FDE8F0">Spin <em style="color:#F2A7BE">Wheel</em> </h2>
+  <p class="sec-hint">putar 5x</p>
+  <div class="wheel-wrap">
+    <div class="wheel-pointer">▼</div>
+    <canvas id="wheelCanvas" width="300" height="300"></canvas>
+  </div>
+  <div class="wheel-spins" id="wheelSpins">5 putaran tersisa</div>
+  <div class="wheel-result" id="wheelResult"></div>
+  <button class="btn-next" id="wheelNext" onclick="goTo('s5',null)" style="color:#FAD4E0;border-color:#F2A7BE;">Terakhir </button>
+</div>
+
+<div class="section" id="s5">
+  <div class="eyebrow">praatrr ✦ 04</div>
+  <h2 class="sec-title">for <em style="color:#FDE8F0">Fidelya</em> </h2>
+  <div class="env-wrap" id="envWrap" onclick="openLetter()">
+    <svg class="env-svg" viewBox="0 0 280 200" fill="none">
+      <rect x="10" y="30" width="260" height="160" rx="16" fill="white" opacity=".9"/>
+      <rect x="10" y="30" width="260" height="160" rx="16" stroke="#FAD4E0" stroke-width="2"/>
+      <path d="M10 46 L140 120 L270 46" stroke="#FAD4E0" stroke-width="2" fill="none"/>
+      <path d="M10 190 L90 120" stroke="#FAD4E0" stroke-width="1.5" fill="none"/>
+      <path d="M270 190 L190 120" stroke="#FAD4E0" stroke-width="1.5" fill="none"/>
+      <circle cx="140" cy="130" r="22" fill="#C2708A"/>
+      <circle cx="140" cy="130" r="16" fill="#7A3550"/>
+      <text x="140" y="136" text-anchor="middle" fill="white" font-size="14">🌸</text>
+    </svg>
+    <p class="env-hint">klik untuk membuka surat</p>
+  </div>
+  <div class="letter-box" id="letterBox">
+    <div class="letter-body" id="letterBody"></div>
+    <div class="letter-sign">— praatrr</div>
+    <div class="letter-deco">🌸 ✨ 🌷 ✨ 🌸</div>
+  </div>
+</div>
+
+<script>
+// ── NAV ──
+function goTo(id, fn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if (fn) setTimeout(fn, 80);
+}
+
+// ── AUDIO CONTROL ──
+const audio = document.getElementById('bg-music');
+audio.volume = 0.40;
+
+function startJourney(){
+  audio.play().catch(e => console.log("Audio diblokir:", e));
+  document.getElementById('audio-bar').style.display='flex'; 
+  goTo('s2',null);
+}
+
+function toggleMute(){ 
+  audio.muted = !audio.muted; 
+  document.getElementById('mute-btn').textContent = audio.muted ? '🔇' : '🔊'; 
+}
+
+// ── PARTICLES ──
+(()=>{
+  const c=document.getElementById('particles');
+  '🌸🌷✿·✦'.split('').forEach(e=>{
+    for(let j=0;j<4;j++){
+      const p=document.createElement('div'); p.className='petal'; p.textContent=e;
+      p.style.cssText=`left:${Math.random()*100}vw;animation-duration:${6+Math.random()*8}s;animation-delay:${Math.random()*10}s;font-size:${10+Math.random()*14}px`;
+      c.appendChild(p);
+    }
+  });
+})();
+
+// ── CONFETTI ──
+function confetti(n=40){
+  const cols=['#F2A7BE','#FAD4E0','#C2708A','#E8C4A0','#7A3550','#FDE8F0','#fff'];
+  for(let i=0;i<n;i++){
+    const d=document.createElement('div'); d.className='cpiece';
+    const sz=6+Math.random()*10;
+    d.style.cssText=`left:${10+Math.random()*80}vw;top:0;width:${sz}px;height:${sz}px;background:${cols[Math.floor(Math.random()*cols.length)]};animation-delay:${Math.random()*1.5}s;border-radius:${Math.random()>.5?'50%':'2px'}`;
+    document.body.appendChild(d); setTimeout(()=>d.remove(),4000);
+  }
+}
+
+// ── S2 CAKE ──
+let blown=0, cakeDone=false;
+function blowCandle(){
+  if(cakeDone) return;
+  blown++;
+  if(blown<=3) document.getElementById('flame'+blown).classList.add('out');
+  if(blown>=3){
+    cakeDone=true; confetti(40);
+    document.getElementById('cakeMsg').classList.add('show');
+    setTimeout(()=>{ document.getElementById('cakeNext').style.display='inline-block'; },1200);
+  }
+}
+
+// ── S3 GAME ──
+let gScore=0,gTime=30,gRunning=false,gHearts=[],gRAF=null,gSpawn=null,gTick=null;
+let gHitHandler=null, gTouchHandler=null;
+
+function initGame(){
+  gRunning=false;
+  if(gRAF){ cancelAnimationFrame(gRAF); gRAF=null; }
+  if(gSpawn){ clearInterval(gSpawn); gSpawn=null; }
+  if(gTick){ clearInterval(gTick); gTick=null; }
+
+  document.getElementById('gameScore').textContent='Score: 0';
+  document.getElementById('gameTimer').textContent='30 detik';
+  document.getElementById('gameNext').style.display='none';
+
+  gScore=0; gTime=10; gHearts=[];
+
+  const cvs=document.getElementById('gameCanvas');
+  const ctx=cvs.getContext('2d');
+
+  if(gHitHandler){ cvs.removeEventListener('click',gHitHandler); cvs.removeEventListener('touchstart',gHitHandler); }
+
+  gRunning=true;
+
+  gSpawn=setInterval(()=>{
+    if(!gRunning) return;
+    const emojis=['💕','💖','💗','✨','🌸'];
+    gHearts.push({
+      x: 30+Math.random()*(cvs.width-60),
+      y: -30,
+      vy: 1.8+Math.random()*2.2,
+      size: 22+Math.random()*18,
+      emoji: emojis[Math.floor(Math.random()*emojis.length)],
+      hit: false
+    });
+  }, 500);
+
+  function loop(){
+    ctx.clearRect(0,0,cvs.width,cvs.height);
+    const g=ctx.createLinearGradient(0,0,0,cvs.height);
+    g.addColorStop(0,'#FDE8F0'); g.addColorStop(1,'#FAD4E0');
+    ctx.fillStyle=g;
+    ctx.beginPath(); ctx.roundRect(0,0,cvs.width,cvs.height,20); ctx.fill();
+    gHearts.forEach(h=>{
+      if(!h.hit) h.y+=h.vy;
+      ctx.font=h.size+'px serif';
+      ctx.fillText(h.emoji, h.x-h.size/2, h.y);
+    });
+    gHearts=gHearts.filter(h=>h.y<cvs.height+40 && !h.hit);
+    if(gRunning) gRAF=requestAnimationFrame(loop);
+  }
+  gRAF=requestAnimationFrame(loop);
+
+  const btnNext=document.getElementById('gameNext');
+  const timerEl=document.getElementById('gameTimer');
+  const scoreEl=document.getElementById('gameScore');
+
+  gTick=setInterval(()=>{
+    gTime--;
+    timerEl.textContent=gTime+' detik';
+    if(gTime<=0){
+      gRunning=false;
+      clearInterval(gTick); gTick=null;
+      clearInterval(gSpawn); gSpawn=null;
+      if(gRAF){ cancelAnimationFrame(gRAF); gRAF=null; }
+      timerEl.textContent='GITU DOANG GABISA HAHAHA';
+      if(gScore>=5) confetti(30);
+      setTimeout(()=>{ btnNext.style.display='inline-block'; },800);
+    }
+  },1000);
+
+  gHitHandler=function hit(e){
+    if(!gRunning) return;
+    e.preventDefault();
+    const rect=cvs.getBoundingClientRect();
+    const sx=cvs.width/rect.width, sy=cvs.height/rect.height;
+    const pts=e.touches?[...e.touches]:[ e ];
+    pts.forEach(pt=>{
+      const cx=(pt.clientX-rect.left)*sx;
+      const cy=(pt.clientY-rect.top)*sy;
+      gHearts.forEach(h=>{
+        if(!h.hit && Math.hypot(cx-h.x, cy-(h.y-h.size/2))<h.size){
+          h.hit=true;
+          gScore++;
+          document.getElementById('gameScore').textContent='Score: '+gScore;
+        }
+      });
+    });
+  }
+  cvs.addEventListener('click',hit);
+  cvs.addEventListener('touchstart',hit,{passive:false});
+}
+
+// ── S4 WHEEL ──
+const prizes=[
+  {label:'\njawab chat-nya\nsingkat banget woy', color:'#F2A7BE'},
+  {label:'\npaling sering typo', color:'#C2708A'},
+  {label:'\npig premium', color:'#FAD4E0'},
+  {label:'\npendek gasi orangnya', color:'#E8C4A0'},
+  {label:'\nsi paling PUBG', color:'#7A3550'},
+  {label:'\ndi tungguin sama "sukses" tuh', color:'#F2A7BE'},
+  {label:'\nharusnya sih orang spesial hehe', color:'#FAD4E0'},
+];
+let wheelAngle=0, wheelSpinning=false, spinsLeft=5, wheelDone=false;
+
+function initWheel(){
+  wheelAngle=0; wheelSpinning=false; spinsLeft=5; wheelDone=false;
+  document.getElementById('wheelSpins').textContent='5 putaran tersisa';
+  document.getElementById('wheelResult').textContent='';
+  document.getElementById('wheelResult').classList.remove('show');
+  document.getElementById('wheelNext').style.display='none';
+  drawWheel(0);
+
+  const cvs=document.getElementById('wheelCanvas');
+  const fresh=cvs.cloneNode(true);
+  cvs.parentNode.replaceChild(fresh,cvs);
+  fresh.id='wheelCanvas';
+  fresh.addEventListener('click',spinWheel);
+  fresh.addEventListener('touchstart',(e)=>{e.preventDefault();spinWheel();},{passive:false});
+  drawWheel(0);
+}
+
+function drawWheel(angle){
+  const cvs=document.getElementById('wheelCanvas');
+  if(!cvs) return;
+  const ctx=cvs.getContext('2d');
+  const cx=cvs.width/2, cy=cvs.height/2, r=cx-8;
+  const slice=Math.PI*2/prizes.length;
+  ctx.clearRect(0,0,cvs.width,cvs.height);
+
+  prizes.forEach((p,i)=>{
+    const start=angle+i*slice, end=start+slice;
+    ctx.beginPath(); ctx.moveTo(cx,cy);
+    ctx.arc(cx,cy,r,start,end); ctx.closePath();
+    ctx.fillStyle=p.color; ctx.fill();
+    ctx.strokeStyle='rgba(255,255,255,.4)'; ctx.lineWidth=2; ctx.stroke();
+
+    ctx.save();
+    ctx.translate(cx,cy);
+    ctx.rotate(start+slice/2);
+    ctx.textAlign='right';
+    ctx.font='bold 13px DM Sans,sans-serif';
+    ctx.fillStyle='white';
+    const lines=p.label.split('\n');
+    lines.forEach((l,li)=>{ ctx.fillText(l, r-10, (li-(lines.length-1)/2)*16); });
+    ctx.restore();
+  });
+
+  ctx.beginPath(); ctx.arc(cx,cy,28,0,Math.PI*2);
+  ctx.fillStyle='#7A3550'; ctx.fill();
+  ctx.strokeStyle='rgba(255,255,255,.5)'; ctx.lineWidth=3; ctx.stroke();
+  ctx.font='18px serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText('🌸',cx,cy);
+}
+
+function spinWheel(){
+  if(wheelSpinning || spinsLeft<=0) return;
+  wheelSpinning=true;
+  const extra=Math.PI*2*(5+Math.random()*5);
+  const targetAngle=wheelAngle+extra;
+  const duration=3000+Math.random()*1000;
+  const start=performance.now();
+  const startA=wheelAngle;
+
+  function easeOut(t){ return 1-Math.pow(1-t,3); }
+
+  function frame(now){
+    const t=Math.min((now-start)/duration,1);
+    wheelAngle=startA+extra*easeOut(t);
+    drawWheel(wheelAngle);
+    if(t<1){ requestAnimationFrame(frame); }
+    else {
+      wheelAngle=targetAngle%(Math.PI*2);
+      wheelSpinning=false;
+      spinsLeft--;
+
+      const slice=Math.PI*2/prizes.length;
+      const norm=(((-wheelAngle-Math.PI/2)%( Math.PI*2))+Math.PI*2)%(Math.PI*2);
+      const idx=Math.floor(norm/slice)%prizes.length;
+      const prize=prizes[idx];
+      const res=document.getElementById('wheelResult');
+      res.textContent=prize.label.replace(/\n/g,' — ');
+      res.classList.add('show');
+
+      document.getElementById('wheelSpins').textContent=
+        spinsLeft>0 ? spinsLeft+' putaran tersisa' : 'Semua hadiah terbuka! 🎉';
+
+      if(spinsLeft<=0){
+        confetti(35);
+        setTimeout(()=>{ document.getElementById('wheelNext').style.display='inline-block'; },800);
+      }
+    }
+  }
+  requestAnimationFrame(frame);
+}
+
+// ── S5 LETTER ──
+let letterOpened=false;
+const letterText=`Hai Pig,
+
+​"Happy 17th Birthday!
+
+​Akhirnya resmi masuk usia legal dan siap membuka lembaran baru yang lebih seru! Nggak kerasa ya, waktu cepat banget berlalu, dan sekarang kamu sudah di titik Sweet Seventeen.
+
+​Semoga di umur yang ke-17 ini, langkahmu makin ringan buat ngejar semua mimpi, selalu dikelilingi kebahagiaan, dan setiap harinya penuh dengan cerita baru yang menyenangkan.
+
+Tetap jadi diri kamu yang keren, suportif, dan selalu bawa positive vibes buat orang-orang di sekitar kamu, ya!
+
+​sebenernya gaada yang spesial di website ini, cuma biar beda cara ucapin aja hehehe 🌸"
+
+Happy Birthday.`;
+
+function openLetter(){
+  if(letterOpened) return;
+  letterOpened=true;
+  document.getElementById('envWrap').style.display='none';
+  document.getElementById('letterBox').style.display='block';
+  confetti(60);
+  const body=document.getElementById('letterBody');
+  let i=0;
+  (function type(){ if(i<letterText.length){ body.innerHTML=letterText.substring(0,++i).replace(/\n/g,'<br>'); setTimeout(type,26); } })();
+}
+</script>
+</body>
+</html>
